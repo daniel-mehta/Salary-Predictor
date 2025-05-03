@@ -20,14 +20,16 @@ type PredictionResponse struct {
 }
 
 func main() {
-	// Connect to the SQLite database
 	db, err := sql.Open("sqlite", "../salary.db")
 	if err != nil {
 		log.Fatalf("❌ Failed to open database: %v", err)
 	}
 	defer db.Close()
 
-	// Define /predict route
+	// Serve static HTML from /static
+	http.Handle("/", http.FileServer(http.Dir("./static")))
+
+	// API endpoint
 	http.HandleFunc("/predict", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodPost {
 			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
@@ -57,6 +59,6 @@ func main() {
 		json.NewEncoder(w).Encode(resp)
 	})
 
-	log.Println("Server running at http://localhost:8080")
+	log.Println("Visit http://localhost:8080 to use the app")
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
