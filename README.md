@@ -9,10 +9,10 @@
 
 
 A full-stack salary prediction pipeline that integrates Python, SQLite, Julia, Go, SQL, and Bash.
-Built to demonstrate working knowledge of ML pipelines, API development, and multi-language system design — and to learn Julia and Go, two languages I picked up the same day I built this.
+Built to demonstrate working knowledge of ML pipelines, API development, and multi-language system design — and to learn Julia and Go, two languages I picked up the same day I built this. The model uses a fixed random seed for more consistent predictions, but variations may still occur.
 
 
-<img width="688" alt="Salary Predictor" src="https://github.com/user-attachments/assets/ab57a55c-8f92-4c29-814a-afd9dd59a822" />
+<img width="688" alt="Salary Predictor" src="https://raw.githubusercontent.com/daniel-mehta/salary-predictor/main/Screenshots/Salary%20Predictor.png" />
 
 
 ---
