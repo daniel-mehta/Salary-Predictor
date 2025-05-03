@@ -6,7 +6,8 @@ using MLJDecisionTreeInterface
 
 # Load data from SQLite
 
-db = SQLite.DB("../salary.db")
+#db = SQLite.DB("../salary.db")
+db = SQLite.DB("salary.db")
 df = DBInterface.execute(db, """
     SELECT job_title, experience_level, location, predicted_salary
     FROM predictions
