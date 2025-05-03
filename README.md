@@ -64,7 +64,7 @@ salary-predictor/
 
 ### 1. Clone and run:
 ```bash
-git clone https://github.com/daniel-mehta/salary-predictor.git
+git clone https://github.com/daniel-mehta/Salary-Predictor.git
 cd salary-predictor
 chmod +x run_pipeline.sh
 ./run_pipeline.sh
