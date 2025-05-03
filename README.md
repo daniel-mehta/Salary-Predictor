@@ -28,6 +28,34 @@ Built to demonstrate working knowledge of ML pipelines, API development, and mul
 - 🎯 **RMSE** on test set: **$43,664**
 
 ---
+## 🧠 Model Details
+The model is a `DecisionTreeRegressor` from the MLJ.jl ecosystem. It was chosen for its simplicity, interpretability, and ability to handle categorical features without manual one-hot encoding.
+
+**Preprocessing:**
+
+- Converted `job_title`, `experience_level`, and `location` columns to categorical types in Julia.
+- No feature scaling was required due to the nature of the tree-based model.
+
+**Hyperparameters:**
+- Used default parameters (`max_depth = -1`, etc.) to keep the model configuration lightweight.
+- Random seed set for reproducibility, though slight variation in predictions may still occur.
+
+---
+
+## 🧮 Baseline Comparison
+
+To benchmark model performance, a simple `DecisionTreeRegressor` was trained in Python using scikit-learn on the same dataset and features (`job_title`, `experience_level`, `company_location`).
+
+**Python (scikit-learn) baseline results:**
+- **RMSE**: $49,820  
+- **MAE**: $37,564  
+- **R²**: 0.37
+
+The Julia model (MLJ.jl) achieved an RMSE of **$43,664**, indicating slightly better performance while maintaining cross-language consistency.
+
+> This baseline comparison validates the effectiveness of the Julia model and provides a familiar point of reference for Python developers.
+
+---
 
 ## 📂 Project Structure
 ```bash
