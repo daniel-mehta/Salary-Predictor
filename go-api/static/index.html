@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Salary Predictor</title>
+  <style>
+    body { font-family: sans-serif; padding: 2rem; max-width: 500px; margin: auto; }
+    input, select, button { margin: 0.5rem 0; width: 100%; padding: 0.5rem; }
+    #result { margin-top: 1rem; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h2>💼 Salary Predictor</h2>
+  <form id="predictForm">
+    <label>Job Title</label>
+    <input type="text" id="job_title" value="Data Scientist" required />
+
+    <label>Experience Level</label>
+    <select id="experience_level">
+      <option value="EN">EN</option>
+      <option value="MI">MI</option>
+      <option value="SE" selected>SE</option>
+      <option value="EX">EX</option>
+    </select>
+
+    <label>Location</label>
+    <input type="text" id="location" value="US" required />
+
+    <button type="submit">Predict Salary</button>
+  </form>
+
+  <div id="result"></div>
+
+  <script>
+    document.getElementById("predictForm").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const job_title = document.getElementById("job_title").value;
+      const experience_level = document.getElementById("experience_level").value;
+      const location = document.getElementById("location").value;
+
+      const response = await fetch("/predict", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ job_title, experience_level, location })
+      });
+
+      const resultDiv = document.getElementById("result");
+      if (response.ok) {
+        const data = await response.json();
+        resultDiv.textContent = `Predicted Salary: $${Math.round(data.predicted_salary).toLocaleString()}`;
+      } else {
+        resultDiv.textContent = "No prediction found.";
+      }
+    });
+  </script>
+</body>
+</html>
