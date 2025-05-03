@@ -2,6 +2,9 @@ using SQLite, DataFrames, CSV
 using CategoricalArrays
 using MLJ
 using MLJDecisionTreeInterface
+using Random
+
+Random.seed!(42)
 
 
 # Load data from SQLite
