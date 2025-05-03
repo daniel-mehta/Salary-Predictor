@@ -5,15 +5,16 @@
   <title>Salary Predictor</title>
   <style>
     body { font-family: sans-serif; padding: 2rem; max-width: 500px; margin: auto; }
-    input, select, button { margin: 0.5rem 0; width: 100%; padding: 0.5rem; }
+    select, button { width: 100%; padding: 0.5rem; margin: 0.5rem 0; }
     #result { margin-top: 1rem; font-weight: bold; }
   </style>
 </head>
 <body>
   <h2>💼 Salary Predictor</h2>
+
   <form id="predictForm">
     <label>Job Title</label>
-    <input type="text" id="job_title" value="Data Scientist" required />
+    <select id="job_title"></select>
 
     <label>Experience Level</label>
     <select id="experience_level">
@@ -24,7 +25,7 @@
     </select>
 
     <label>Location</label>
-    <input type="text" id="location" value="US" required />
+    <select id="location"></select>
 
     <button type="submit">Predict Salary</button>
   </form>
@@ -32,6 +33,30 @@
   <div id="result"></div>
 
   <script>
+    // Populate dropdowns on load
+    window.addEventListener("DOMContentLoaded", async () => {
+      const res = await fetch("/meta");
+      const data = await res.json();
+
+      const jobSelect = document.getElementById("job_title");
+      const locSelect = document.getElementById("location");
+
+      data.job_titles.forEach(title => {
+        const option = document.createElement("option");
+        option.value = title;
+        option.textContent = title;
+        jobSelect.appendChild(option);
+      });
+
+      data.locations.forEach(loc => {
+        const option = document.createElement("option");
+        option.value = loc;
+        option.textContent = loc;
+        locSelect.appendChild(option);
+      });
+    });
+
+    // Handle form submission
     document.getElementById("predictForm").addEventListener("submit", async function (e) {
       e.preventDefault();
 

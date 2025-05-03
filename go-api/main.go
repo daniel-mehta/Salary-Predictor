@@ -22,14 +22,15 @@ type PredictionResponse struct {
 func main() {
 	db, err := sql.Open("sqlite", "../salary.db")
 	if err != nil {
-		log.Fatalf("❌ Failed to open database: %v", err)
+		log.Fatalf("Failed to open database: %v", err)
 	}
 	defer db.Close()
 
-	// Serve static HTML from /static
-	http.Handle("/", http.FileServer(http.Dir("./static")))
+	// Serve static HTML
+	fs := http.FileServer(http.Dir("./static"))
+	http.Handle("/", fs)
 
-	// API endpoint
+	// API to predict salary
 	http.HandleFunc("/predict", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodPost {
 			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
@@ -57,6 +58,38 @@ func main() {
 		resp := PredictionResponse{PredictedSalary: salary}
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(resp)
+	})
+
+	// API to get job titles and locations
+	http.HandleFunc("/meta", func(w http.ResponseWriter, r *http.Request) {
+		type Meta struct {
+			JobTitles []string `json:"job_titles"`
+			Locations []string `json:"locations"`
+		}
+		meta := Meta{}
+
+		rows, err := db.Query("SELECT DISTINCT job_title FROM predictions")
+		if err == nil {
+			for rows.Next() {
+				var jt string
+				rows.Scan(&jt)
+				meta.JobTitles = append(meta.JobTitles, jt)
+			}
+			rows.Close()
+		}
+
+		rows, err = db.Query("SELECT DISTINCT location FROM predictions")
+		if err == nil {
+			for rows.Next() {
+				var loc string
+				rows.Scan(&loc)
+				meta.Locations = append(meta.Locations, loc)
+			}
+			rows.Close()
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(meta)
 	})
 
 	log.Println("Visit http://localhost:8080 to use the app")
