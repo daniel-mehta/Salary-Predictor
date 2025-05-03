@@ -1,0 +1,10 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "database": "${workspaceFolder:salary-predictor}/salary.db",
+            "name": "salary-predictor"
+        }
+    ]
+}
